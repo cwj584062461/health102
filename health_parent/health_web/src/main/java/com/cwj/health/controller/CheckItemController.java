@@ -52,4 +52,15 @@ public class CheckItemController {
         PageResult<CheckItem> pageResult = checkItemService.findPage(queryPageBean);
         return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,pageResult);
     }
+
+    /**
+     * 删除检查项
+     * @param id
+     * @return
+     */
+    @PostMapping("/deleteById")
+    public Result deleteById(int id){
+        checkItemService.deleteById(id);
+        return new Result(true,MessageConstant.DELETE_CHECKITEM_SUCCESS);
+    }
 }

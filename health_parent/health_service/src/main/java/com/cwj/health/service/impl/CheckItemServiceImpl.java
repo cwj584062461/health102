@@ -1,9 +1,11 @@
 package com.cwj.health.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.cwj.health.constant.MessageConstant;
 import com.cwj.health.dao.CheckItemDao;
 import com.cwj.health.entity.PageResult;
 import com.cwj.health.entity.QueryPageBean;
+import com.cwj.health.exception.MyException;
 import com.cwj.health.pojo.CheckItem;
 import com.cwj.health.service.CheckItemService;
 import com.github.pagehelper.Page;
@@ -62,6 +64,18 @@ public class CheckItemServiceImpl implements CheckItemService {
         PageResult<CheckItem> pageResult = new PageResult<CheckItem>(page.getTotal(),page.getResult());
         return pageResult;
     }
+
+    @Override
+    public void deleteById(int id) {
+        //判断这个检查项是否被使用
+        int cnt = checkItemDao.findCountByCheckItemId(id);
+        if (cnt>0){
+            //如果被使用了，则报错
+            throw new MyException(MessageConstant.CHECKITEM_IN_USE);
+        }
+
+        checkItemDao.deleteById(id);
+     }
 
 
 }

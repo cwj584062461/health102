@@ -26,4 +26,17 @@ public interface CheckItemDao {
      * @return
      */
     Page<CheckItem> findPage(String queryString);
+
+    /**
+     * 删除检查项
+     * @param id
+     */
+    void deleteById(int id);
+
+    /**
+     *检查 检查项是否被检查组使用了
+     * @param id
+     * @return
+     */
+    int findCountByCheckItemId(int id);
 }
