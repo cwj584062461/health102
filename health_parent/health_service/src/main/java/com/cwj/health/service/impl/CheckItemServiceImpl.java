@@ -2,9 +2,15 @@ package com.cwj.health.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.cwj.health.dao.CheckItemDao;
+import com.cwj.health.entity.PageResult;
+import com.cwj.health.entity.QueryPageBean;
 import com.cwj.health.pojo.CheckItem;
 import com.cwj.health.service.CheckItemService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -23,4 +29,39 @@ public class CheckItemServiceImpl implements CheckItemService {
     public List<CheckItem> findAll() {
         return checkItemDao.findAll();
     }
+
+    /**
+     * 新增检查项
+     * @param checkItem
+     */
+    @Override
+    public void add(CheckItem checkItem) {
+        checkItemDao.add(checkItem);
+    }
+
+    /**
+     * 分页查询
+     * @param queryPageBean
+     * @return
+     */
+    @Override
+    public PageResult<CheckItem> findPage(QueryPageBean queryPageBean) {
+        //使用分页助手
+        PageHelper.startPage(queryPageBean.getCurrentPage(),queryPageBean.getPageSize());
+
+        //判断是否有查询条件
+        if (!StringUtil.isEmpty(queryPageBean.getQueryString())){
+            //有着拼接%%  成模糊查询语句
+            queryPageBean.setQueryString("%"+queryPageBean.getQueryString()+"%");
+        }
+
+        //调用dao层
+        Page<CheckItem> page = checkItemDao.findPage(queryPageBean.getQueryString());
+
+        //将结果封装导pageResult
+        PageResult<CheckItem> pageResult = new PageResult<CheckItem>(page.getTotal(),page.getResult());
+        return pageResult;
+    }
+
+
 }

@@ -4,8 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cwj.health.dao.CheckItemDao">
-    <!--查询所有-->
-    <select id="findAll" resultType="checkitem">
+    <!--查询所有检查项-->
+    <select id="findAll" resultType="com.cwj.health.pojo.CheckItem">
         select * from t_checkitem
     </select>
+
+<!--新增检查项-->
+    <insert id="add" parameterType="com.cwj.health.pojo.CheckItem">
+        insert into t_checkitem (code,name,sex,age,price,type,remark,attention) values(#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention})
+    </insert>
+
+<!--分页查询-->
+    <select id="findPage" parameterType="String" resultType="com.cwj.health.pojo.CheckItem">
+        select * from t_checkitem
+        <if test="value != null and value.length>0">
+            where code like #{value} or name like #{value}
+        </if>
+    </select>
+
 </mapper>
