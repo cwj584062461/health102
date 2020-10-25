@@ -2,6 +2,7 @@ package com.cwj.health.service;
 
 import com.cwj.health.entity.PageResult;
 import com.cwj.health.entity.QueryPageBean;
+import com.cwj.health.exception.MyException;
 import com.cwj.health.pojo.CheckItem;
 
 import java.util.List;
@@ -31,5 +32,18 @@ public interface CheckItemService {
      * 删除检查项
      * @param id
      */
-    void deleteById(int id);
+    void deleteById(int id) throws MyException;
+
+    /**
+     * 通过id查询检查项
+     * @param id
+     * @return
+     */
+    CheckItem findById(int id);
+
+    /**
+     * 修改检查项
+     * @param checkItem
+     */
+    void update(CheckItem checkItem);
 }

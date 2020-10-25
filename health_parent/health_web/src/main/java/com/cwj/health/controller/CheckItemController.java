@@ -63,4 +63,25 @@ public class CheckItemController {
         checkItemService.deleteById(id);
         return new Result(true,MessageConstant.DELETE_CHECKITEM_SUCCESS);
     }
+
+    /**
+     * 通过id查询检查项
+     * @param id
+     * @return
+     */
+    @GetMapping("/findById")
+    public Result findById(int id){
+        CheckItem checkItem = checkItemService.findById(id);
+        return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,checkItem);
+    }
+
+    /**
+     * 修改检查项
+     * @return
+     */
+    @PostMapping("/update")
+    public Result update(@RequestBody CheckItem checkItem){
+        checkItemService.update(checkItem);
+        return new Result(true,MessageConstant.EDIT_CHECKITEM_SUCCESS);
+    }
 }

@@ -65,17 +65,42 @@ public class CheckItemServiceImpl implements CheckItemService {
         return pageResult;
     }
 
+    /**
+     * 删除检查项
+     * @param id
+     */
     @Override
+
     public void deleteById(int id) {
         //判断这个检查项是否被使用
         int cnt = checkItemDao.findCountByCheckItemId(id);
         if (cnt>0){
             //如果被使用了，则报错
-            throw new MyException(MessageConstant.CHECKITEM_IN_USE);
+            throw new MyException("该检查项已经被使用了，不能删除!");
         }
-
+        //没有被使用，则删除
         checkItemDao.deleteById(id);
      }
+
+    /**
+     * 通过id查询检查项
+     * @param id
+     * @return
+     */
+    @Override
+    public CheckItem findById(int id) {
+        return checkItemDao.findById(id);
+
+    }
+
+    /**
+     * 修改检查项
+     * @param checkItem
+     */
+    @Override
+    public void update(CheckItem checkItem) {
+        checkItemDao.update(checkItem);
+    }
 
 
 }
