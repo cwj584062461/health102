@@ -71,7 +71,7 @@ public class CheckItemServiceImpl implements CheckItemService {
      */
     @Override
 
-    public void deleteById(int id) {
+    public void deleteById(int id)throws MyException {
         //判断这个检查项是否被使用
         int cnt = checkItemDao.findCountByCheckItemId(id);
         if (cnt>0){

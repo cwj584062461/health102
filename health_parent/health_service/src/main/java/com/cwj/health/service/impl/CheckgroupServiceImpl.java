@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.cwj.health.dao.CheckgroupDao;
 import com.cwj.health.entity.PageResult;
 import com.cwj.health.entity.QueryPageBean;
+import com.cwj.health.exception.MyException;
 import com.cwj.health.pojo.CheckGroup;
 import com.cwj.health.service.CheckgroupService;
 import com.github.pagehelper.Page;
@@ -116,5 +117,28 @@ public class CheckgroupServiceImpl implements CheckgroupService {
         }
 
 
+    }
+
+    /**
+     * 删除检查组
+     * @param id
+     */
+    @Override
+    @Transactional
+    public void deleteById(int id)throws MyException {
+        //根据id判断这个检查组是否被使用
+        int cnt = checkgroupDao.findSetmealCountByCheckGroupId(id);
+
+        if (cnt>0){
+            //如果被使用了 则报错
+            throw new MyException("该检查组已经被使用了，不能删除!");
+        }
+
+        //如果没有被使用
+        // 删除检查组与检查项的关系
+        checkgroupDao.deleteCheckGroupIdCheckItem(id);
+
+        //删除检查组
+        checkgroupDao.deleteById(id);
     }
 }

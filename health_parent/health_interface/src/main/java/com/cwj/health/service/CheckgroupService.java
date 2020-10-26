@@ -2,6 +2,7 @@ package com.cwj.health.service;
 
 import com.cwj.health.entity.PageResult;
 import com.cwj.health.entity.QueryPageBean;
+import com.cwj.health.exception.MyException;
 import com.cwj.health.pojo.CheckGroup;
 
 import java.util.List;
@@ -43,4 +44,9 @@ public interface CheckgroupService {
      */
     void update(CheckGroup checkGroup, Integer[] checkitemIds);
 
+    /**
+     * 删除检查组
+     * @param id
+     */
+    void deleteById(int id) throws MyException;
 }

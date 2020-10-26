@@ -44,4 +44,14 @@
     <delete id="deleteCheckGroupIdCheckItem" parameterType="int">
         delete from t_checkgroup_checkitem where checkgroup_id = #{id}
     </delete>
+
+<!--通过检查组的id统计套餐与检查组关系表的个数-->
+    <select id="findSetmealCountByCheckGroupId" parameterType="int" resultType="int">
+        select count(1) from t_setmeal_checkgroup where checkgroup_id = #{id}
+    </select>
+
+<!--删除检查组-->
+    <delete id="deleteById" parameterType="int">
+        delete from t_checkgroup where id =#{id}
+    </delete>
 </mapper>
