@@ -7,10 +7,9 @@ import com.cwj.health.entity.QueryPageBean;
 import com.cwj.health.entity.Result;
 import com.cwj.health.pojo.CheckGroup;
 import com.cwj.health.service.CheckgroupService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/checkgroup")
@@ -43,4 +42,38 @@ public class CheckgroupController {
         return new Result(true,MessageConstant.QUERY_CHECKGROUP_SUCCESS,pageResult);
     }
 
+    /**
+     * 通过Id查询检查组
+     * @param id
+     * @return
+     */
+
+    @GetMapping("/findById")
+    public Result findById(int id){
+        CheckGroup checkGroup = checkgroupService.findById(id);
+        return new Result(true,MessageConstant.QUERY_CHECKGROUP_SUCCESS,checkGroup);
+    }
+
+    /**
+     * 通过检查组checkgroupId查检查项CheckItemIds
+     * @param id
+     * @return
+     */
+    @GetMapping("/findCheckItemIdsByCheckGroupId")
+    public Result findCheckItemIdsByCheckGroupId(int id){
+        List<Integer> list = checkgroupService.findCheckItemIdsByCheckGroupId(id);
+        return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,list);
+    }
+
+    /**
+     * 修改检查组
+     * @param checkGroup
+     * @param checkitemIds
+     * @return
+     */
+    @PostMapping("/update")
+    public Result update(@RequestBody CheckGroup checkGroup,Integer[] checkitemIds){
+        checkgroupService.update(checkGroup,checkitemIds);
+        return new Result(true,MessageConstant.EDIT_CHECKGROUP_SUCCESS);
+    }
 }
