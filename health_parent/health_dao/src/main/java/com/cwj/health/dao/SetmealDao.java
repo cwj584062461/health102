@@ -65,4 +65,11 @@ public interface SetmealDao {
      * @return
      */
     int findOrderCountBySetmealId(int id);
+
+    /**
+     * 找图片名
+     * @return
+     */
+    List<String> findImgs();
+
 }

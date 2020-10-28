@@ -47,4 +47,10 @@ public interface SetmealService {
      * @param id
      */
     void deleteById(int id)throws MyException;
+
+    /**
+     * 找图片名
+     * @return
+     */
+    List<String> findImgs();
 }

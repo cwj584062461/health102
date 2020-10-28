@@ -118,5 +118,14 @@ public class SetmealServiceImpl implements SetmealService {
         setmealDao.deleteById(id);
     }
 
+    /**
+     * 找图片名
+     * @return
+     */
+    @Override
+    public List<String> findImgs() {
+        return setmealDao.findImgs();
+    }
+
 
 }
