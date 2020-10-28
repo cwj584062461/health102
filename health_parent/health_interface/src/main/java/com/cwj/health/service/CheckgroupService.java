@@ -49,4 +49,11 @@ public interface CheckgroupService {
      * @param id
      */
     void deleteById(int id) throws MyException;
+
+    /**
+     * 查询检查组
+     * @return
+     */
+    List<CheckGroup> findAll();
+
 }
