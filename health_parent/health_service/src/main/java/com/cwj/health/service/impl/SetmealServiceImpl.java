@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.cwj.health.dao.SetmealDao;
 import com.cwj.health.entity.PageResult;
 import com.cwj.health.entity.QueryPageBean;
+import com.cwj.health.exception.MyException;
 import com.cwj.health.pojo.Setmeal;
 import com.cwj.health.service.SetmealService;
 import com.github.pagehelper.Page;
@@ -12,6 +13,8 @@ import com.github.pagehelper.StringUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service(interfaceClass = SetmealService.class)
 public class SetmealServiceImpl implements SetmealService {
@@ -57,6 +60,62 @@ public class SetmealServiceImpl implements SetmealService {
         Page<Setmeal> page = setmealDao.findPage(queryPageBean.getQueryString());
         PageResult<Setmeal> pageResult = new PageResult<>(page.getTotal(), page.getResult());
         return pageResult;
+    }
+
+    /**
+     * 根据id查询套餐
+     * @param id
+     * @return
+     */
+    @Override
+    public Setmeal findById(int id) {
+        return setmealDao.findById(id);
+    }
+
+    /**
+     * 根据套餐id查询选中的检查组id
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Integer> findCheckgroupIdsBySetmealId(int id) {
+        return setmealDao.findCheckgroupIdsBySetmealId(id);
+    }
+
+    /**
+     * 修改套餐
+     * @param setmeal
+     * @param checkgroupIds
+     */
+    @Override
+    @Transactional
+    public void update(Setmeal setmeal, Integer[] checkgroupIds) {
+        setmealDao.update(setmeal);
+
+        setmealDao.deleteSetmealCheckGroup(setmeal.getId());
+
+        if (null!=checkgroupIds){
+            for (Integer checkgroupId : checkgroupIds) {
+                setmealDao.addSetmealcheckGroup(setmeal.getId(),checkgroupId);
+            }
+        }
+    }
+
+    /**
+     * 删除套餐
+     * @param id
+     */
+    @Override
+    @Transactional
+    public void deleteById(int id) {
+        int cnt = setmealDao.findOrderCountBySetmealId(id);
+        if (cnt>0){
+            throw new MyException("已经有订单使用了这个套餐，不能删除！");
+        }
+        //删除套餐与检查组的关系
+        setmealDao.deleteSetmealCheckGroup(id);
+
+        setmealDao.deleteById(id);
     }
 
 

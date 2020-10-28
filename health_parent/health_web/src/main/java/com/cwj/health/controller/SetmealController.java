@@ -8,14 +8,12 @@ import com.cwj.health.entity.QueryPageBean;
 import com.cwj.health.entity.Result;
 import com.cwj.health.pojo.Setmeal;
 import com.cwj.health.service.SetmealService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -76,5 +74,52 @@ public class SetmealController {
     public Result findPage(@RequestBody QueryPageBean queryPageBean){
         PageResult<Setmeal> pageResult= setmealService.findPage(queryPageBean);
         return new Result(true,MessageConstant.QUERY_SETMEAL_SUCCESS,pageResult);
+    }
+
+    /**
+     * 根据id查询套餐
+     * @param id
+     * @return
+     */
+    @GetMapping("/findById")
+    public Result findById(int id){
+        Setmeal setmeal = setmealService.findById(id);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("setmeal",setmeal);
+        map.put("domain",QiNiuUtils.DOMAIN);
+        return new Result(true,MessageConstant.QUERY_SETMEAL_SUCCESS,map);
+    }
+
+    /**
+     * 根据套餐id查询选中的检查组id
+     * @param id
+     * @return
+     */
+    @GetMapping("/findCheckgroupIdsBySetmealId")
+    public Result findCheckgroupIdsBySetmealId(int id){
+        List<Integer> list =setmealService.findCheckgroupIdsBySetmealId(id);
+        return new Result(true,MessageConstant.QUERY_CHECKGROUP_SUCCESS,list);
+    }
+
+    /**
+     * 修改套餐
+     * @return
+     */
+    @PostMapping("/update")
+    public Result update(@RequestBody Setmeal setmeal,Integer[] checkgroupIds){
+        setmealService.update(setmeal,checkgroupIds);
+        return new Result(true,MessageConstant.EDIT_SETMEAL_SUCCESS);
+    }
+
+    /**
+     * 删除套餐
+     * @param id
+     * @return
+     */
+    @GetMapping("/deleteById")
+    public Result deleteById (int id){
+        setmealService.deleteById(id);
+        return new Result(true,MessageConstant.DELETE_SETMEAL_SUCCESS);
     }
 }

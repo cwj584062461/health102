@@ -4,6 +4,8 @@ import com.cwj.health.pojo.Setmeal;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface SetmealDao {
     /**
      * 添加套餐
@@ -24,4 +26,43 @@ public interface SetmealDao {
      * @return
      */
     Page<Setmeal> findPage(String queryString);
+
+    /**
+     * 根据id查询套餐
+     * @param id
+     * @return
+     */
+    Setmeal findById(int id);
+
+    /**
+     * 根据套餐id查询选中的检查组id
+     * @param id
+     * @return
+     */
+    List<Integer> findCheckgroupIdsBySetmealId(int id);
+
+    /**
+     * 修改套餐
+     * @param setmeal
+     */
+    void update(Setmeal setmeal);
+
+    /**
+     * 删除套餐与检查组的关系
+     * @param id
+     */
+    void deleteSetmealCheckGroup(Integer id);
+
+    /**
+     * 删除套餐
+     * @param id
+     */
+    void deleteById(int id);
+
+    /**
+     * 查询套餐是否被订单使用
+     * @param id
+     * @return
+     */
+    int findOrderCountBySetmealId(int id);
 }
