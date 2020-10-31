@@ -53,4 +53,10 @@ public interface SetmealService {
      * @return
      */
     List<String> findImgs();
+
+    /**
+     * 获取套餐列表
+     * @return
+     */
+    List<Setmeal> getSetmeal();
 }

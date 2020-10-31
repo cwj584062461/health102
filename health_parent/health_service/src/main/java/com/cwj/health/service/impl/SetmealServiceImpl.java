@@ -127,5 +127,10 @@ public class SetmealServiceImpl implements SetmealService {
         return setmealDao.findImgs();
     }
 
+    @Override
+    public List<Setmeal> getSetmeal() {
+        return setmealDao.getSetmeal();
+    }
+
 
 }

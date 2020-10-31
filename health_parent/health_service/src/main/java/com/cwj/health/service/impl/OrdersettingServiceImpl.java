@@ -59,4 +59,29 @@ public class OrdersettingServiceImpl implements OrdersettingService {
         month+="%";
         return ordersettingDao.getOrderSettingByMonth(month);
     }
+
+    /**
+     * 基于日历预约设置
+     * @param orderSetting
+     */
+    @Override
+    public void editNumberByDate(OrderSetting orderSetting) {
+        //通过日历查询预约设置信息
+        OrderSetting osInDb = ordersettingDao.findByOrderDate(orderSetting.getOrderDate());
+        //判断查询结果是否为空
+        if (null != osInDb){
+            //有预约设置信息
+            //判断最大预约数是否大于已预约数
+            if (orderSetting.getNumber() < osInDb.getNumber()){
+                //小于 则报错
+                throw new MyException("最大预约数不能小于已已预约数");
+            }
+
+            //更新最大可预约数
+            ordersettingDao.updateNumber(orderSetting);
+        }else {
+            //不存在则添加预约设置信息
+            ordersettingDao.add(orderSetting);
+        }
+    }
 }

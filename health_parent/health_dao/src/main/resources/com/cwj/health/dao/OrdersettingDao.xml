@@ -9,10 +9,12 @@
     <select id="findByOrderDate" parameterType="date" resultType="com.cwj.health.pojo.OrderSetting">
         select * from t_ordersetting where orderDate=#{orderDate}
     </select>
+
     <!--更新最大预约数-->
     <update id="updateNumber" parameterType="com.cwj.health.pojo.OrderSetting">
         update t_ordersetting set number=#{number} where orderDate = #{orderDate}
     </update>
+
     <!--添加预约信息-->
     <insert id="add" parameterType="com.cwj.health.pojo.OrderSetting">
         insert into t_ordersetting(orderDate, number, reservations)
@@ -24,4 +26,5 @@
         select CAST(DATE_FORMAT(orderDate,'%d') AS SIGNED) date,number,reservations
         from t_ordersetting where orderdate like #{month}
     </select>
+
 </mapper>

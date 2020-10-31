@@ -18,4 +18,10 @@ public interface OrdersettingService {
      * @return
      */
     List<Map<String, Integer>> getOrderSettingByMonth(String month);
+
+    /**
+     * 基于日历预约设置
+     * @param orderSetting
+     */
+    void editNumberByDate(OrderSetting orderSetting);
 }
