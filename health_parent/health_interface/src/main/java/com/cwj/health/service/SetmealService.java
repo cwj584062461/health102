@@ -59,4 +59,11 @@ public interface SetmealService {
      * @return
      */
     List<Setmeal> getSetmeal();
+
+    /**
+     * 根据id查询套餐
+     * @param id
+     * @return
+     */
+    Setmeal findDetailById(int id);
 }
