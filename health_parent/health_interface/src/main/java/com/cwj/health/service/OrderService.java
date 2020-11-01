@@ -12,4 +12,11 @@ public interface OrderService {
      * @return
      */
     Order submitOrder(Map<String, String> orderInfo) throws MyException;
+
+    /**
+     * 查询套餐信息
+     * @param id
+     * @return
+     */
+    Map<String, Object> findById(int id);
 }

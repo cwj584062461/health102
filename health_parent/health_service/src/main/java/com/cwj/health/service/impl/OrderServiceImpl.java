@@ -105,4 +105,9 @@ public class OrderServiceImpl implements OrderService {
             return order;
         }
     }
+
+    @Override
+    public Map<String, Object> findById(int id) {
+        return orderDao.findById4Detail(id);
+    }
 }

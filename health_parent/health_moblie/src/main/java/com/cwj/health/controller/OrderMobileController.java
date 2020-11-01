@@ -8,10 +8,7 @@ import com.cwj.health.pojo.Order;
 import com.cwj.health.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -61,6 +58,12 @@ public class OrderMobileController {
         // 调用服务，返回结果给页面
         Order order = orderService.submitOrder(orderInfo);
         return new Result(true, MessageConstant.ORDER_SUCCESS, order);
+    }
 
+    @GetMapping("/findById")
+    public Result findById(int id){
+        //调用服务
+        Map<String, Object> orderInfo = orderService.findById(id);
+        return new Result(true,MessageConstant.QUERY_SETMEAL_SUCCESS,orderInfo);
     }
 }
