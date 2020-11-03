@@ -55,9 +55,9 @@ public class LoginController {
         //根据手机查询查询用户
         Member member = memberService.findByTelephone(telephone);
         //判断用户是否存在
-        if (null == member){
+        if (null == member) {
             //不存在 完成会员注册
-            member =new Member();
+            member = new Member();
             member.setRegTime(new Date());
             member.setPhoneNumber(telephone);
             member.setRemark("手机快速注册");
@@ -65,13 +65,13 @@ public class LoginController {
             memberService.add(member);
         }
         //将手机号添加进cookie中
-        Cookie cookie = new Cookie("login_member_telephone",telephone);
+        Cookie cookie = new Cookie("login_member_telephone", telephone);
         //cookie最大有效时间 1个月
-        cookie.setMaxAge(30*24*60*60);
+        cookie.setMaxAge(30 * 24 * 60 * 60);
         //访问路径
         cookie.setPath("/");
         response.addCookie(cookie);
-        return new Result(true,MessageConstant.LOGIN_SUCCESS);
+        return new Result(true, MessageConstant.LOGIN_SUCCESS);
     }
 
 }

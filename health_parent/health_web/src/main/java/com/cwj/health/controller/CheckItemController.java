@@ -8,6 +8,7 @@ import com.cwj.health.entity.QueryPageBean;
 import com.cwj.health.entity.Result;
 import com.cwj.health.pojo.CheckItem;
 import com.cwj.health.service.CheckItemService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class CheckItemController {
      * @return
      */
     @PostMapping("/add")
+    @PreAuthorize("hasAnyAuthority('CHECKITEM_ADD')")
     public Result add(@RequestBody CheckItem checkItem){
 
         checkItemService.add(checkItem);
@@ -48,6 +50,7 @@ public class CheckItemController {
      * @return
      */
     @PostMapping("/findPage")
+    @PreAuthorize("hasAnyAuthority('CHECKITEM_QUERY')")
     public Result findPage(@RequestBody QueryPageBean queryPageBean){
         PageResult<CheckItem> pageResult = checkItemService.findPage(queryPageBean);
         return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,pageResult);

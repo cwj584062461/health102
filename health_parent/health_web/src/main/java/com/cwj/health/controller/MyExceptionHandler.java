@@ -1,10 +1,10 @@
 package com.cwj.health.controller;
 
-
 import com.cwj.health.entity.Result;
 import com.cwj.health.exception.MyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -41,6 +41,11 @@ public class MyExceptionHandler {
         // e.printStackTrace(); System.out.println() // out输出流 硬件输出设备 占用大量系统资源
         log.error("发生未知异常",e);
         return new Result(false, "发生未知异常，请联系管理员");
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public Result handleAccessDeniedException(AccessDeniedException e){
+        return new Result(false, "没有权限");
     }
 
 }
